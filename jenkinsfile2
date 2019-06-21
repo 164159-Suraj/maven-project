@@ -1,0 +1,19 @@
+pipeline {
+	agent any
+	tools {
+		maven 'localMaven'
+	}
+	stages {
+		stage ('Building') {
+			steps {
+				sh 'mvn clean package'
+			}
+			post {
+				success {
+					echo 'archiving Atrifacts...'
+					archiveArtifacts artifacts: '**/*.war'
+				}
+			}
+		}
+	}
+}
